@@ -36,7 +36,7 @@ function Card(props) {
     return <ModalWrapper onClick={() => {props.setModalView(false)}}>
         <CardWrapper>
             <CardInfo items={props.items} setItems={props.setItems} profile={props.profile} obj={props.obj}></CardInfo>
-            <PhotoWrapper></PhotoWrapper>
+            <PhotoWrapper photo={props.obj.photofilename}></PhotoWrapper>
         </CardWrapper>
     </ModalWrapper>
  }

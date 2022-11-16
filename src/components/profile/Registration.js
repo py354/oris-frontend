@@ -51,9 +51,6 @@ function Registration(props) {
             } else if (data.data.result === 'ok') {
                 alert("Регистрация прошла успешно")
                 console.log(data)
-                for (const key in data.data.data) {
-                    props.setCookie(key, data.data.data[key])
-                }
             }
         })
     }

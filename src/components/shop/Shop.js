@@ -1,8 +1,9 @@
 import axios from 'axios'
 import styled from "styled-components";
-import {useEffect, useState} from "react";
+import {Fragment, useEffect, useState} from "react";
 import MiniCard from "../UI/MiniCard";
-import ContentWrapper, {ItemsWrapper} from "../UI/Content";
+import ContentWrapper, {FlexCenterWrapper, ItemsWrapper} from "../UI/Content";
+import AddItem from "./AddItem";
 
 
 const ServerSelectorsWrapper = styled.div`
@@ -24,11 +25,18 @@ const ServerSelectorWrapper = styled.div`
   border: 1px black solid;
 `
 
-
+const AddItemButton = styled.button`
+  width: 300px;
+  text-align: center;
+  padding: 10px;
+  background-color: #D9D9D9;
+  border: 1px black solid;
+`
 
 function Shop() {
     const [server, setServer] = useState(1);
     const [items, setItems] = useState([]);
+    const [addItemWindowShow, setAddItemWindowShow] = useState(false);
 
     useEffect(() => {
         const src = `http://127.0.0.1:5000/items/${server}/`;
@@ -47,6 +55,16 @@ function Shop() {
         })
     }, [])
 
+    let addItemButton = <Fragment></Fragment>
+    if (profile['is_admin']) {
+        addItemButton = <AddItemButton onClick={() => setAddItemWindowShow(true)}>Добавить товар</AddItemButton>
+    }
+
+    let addItemWindow = <Fragment></Fragment>
+    if (addItemWindowShow) {
+        addItemWindow = <AddItem server={server} setModalView={() => setAddItemWindowShow(false)}/>
+    }
+
     return <ContentWrapper>
         <h1>Магазин</h1>
         <ServerSelectorsWrapper>
@@ -57,6 +75,8 @@ function Shop() {
         <ItemsWrapper>
             {items.map((item, i) => <MiniCard items={items} setItems={setItems} profile={profile} obj={item} key={i}/>)}
         </ItemsWrapper>
+        <FlexCenterWrapper>{addItemButton}</FlexCenterWrapper>
+        {addItemWindow}
     </ContentWrapper>
 }
 export default Shop;
